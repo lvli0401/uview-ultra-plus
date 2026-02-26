@@ -404,10 +404,10 @@ $up-button-before-background-color:#000 !default;
 $up-button-before-border-color:#000 !default;
 $up-button-active-before-opacity:.15 !default;
 $up-button-icon-margin-left:4px !default;
-$up-button-plain-up-button-info-color:#000000 !default;;
-$up-button-plain-up-button-success-color:$up-success !default;;
-$up-button-plain-up-button-error-color:$up-error !default;;
-$up-button-plain-up-button-warning-color:$up-error !default;;
+$up-button-plain-up-button-info-color:#000000 !default;
+$up-button-plain-up-button-success-color:$up-success !default;
+$up-button-plain-up-button-error-color:$up-error !default;
+$up-button-plain-up-button-warning-color:$up-error !default;
 
 .up-button {
     height: $up-button-up-button-height;

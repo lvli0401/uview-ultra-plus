@@ -47,7 +47,7 @@ $up-button-plain-up-button-warning-color:$up-error;
 	}
 	
 	/* #ifndef UNI-APP-X */
-	&__icon+&__text:not(:empty),
+	// &__icon+&__text:not(:empty),
 	/* #endif */
 	&__loading-text {
 		margin-left:$up-button-icon-margin-left;
