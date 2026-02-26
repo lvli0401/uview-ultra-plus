@@ -1,10 +1,10 @@
 {
-    "name": "uview-ultra-plus", // 包名（全局唯一！）
-    "version": "1.0.0", // 初始版本
+    "name": "uview-ultra-plus",
+    "version": "1.0.0",
     "description": "A uView-like component library for UniApp & UniApp X",
-    "main": "index.js", // CommonJS 入口
-    "module": "index.js", // ES Module 入口（UniApp 支持）
-    "types": "index.d.ts", // 类型声明（可选但推荐）
+    "main": "index.js",
+    "module": "index.js",
+    "types": "index.d.ts",
     "scripts": {
         "test": "echo \"No test specified\""
     },
@@ -20,13 +20,13 @@
         "type": "git",
         "url": "https://github.com/lvli0401/uview-ultra-plus.git"
     },
-    "files": [ // ✅ 只发布这些文件！
+    "files": [
         "lime-dayuts",
         "uview-ultra",
         "README.md",
         "LICENSE"
     ],
-    "uni_modules": { // ✅ DCloud 插件市场识别字段
+    "uni_modules": {
         "platforms": {
             "client": {
                 "App": {
