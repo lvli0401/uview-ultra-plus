@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.2.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.1.1...v1.2.0) (2026-02-28)
+
+
+### Features
+
+* Implement version-specific package downloads with master branch fallback in install script. ([302c765](https://github.com/lvli0401/uview-ultra-plus/commit/302c765573c8ddd439443eab30e625f1aa136873))
+
 ## [1.1.1](https://github.com/lvli0401/uview-ultra-plus/compare/v1.1.0...v1.1.1) (2026-02-28)
 
 # 1.1.0 (2026-02-28)
