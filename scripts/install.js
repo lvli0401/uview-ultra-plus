@@ -16,11 +16,23 @@ function install() {
         targetBaseDir = path.join(projectRoot, 'uni_modules');
     }
 
-    const repoUrl = 'https://github.com/lvli0401/uview-ultra-plus';
-    const branch = 'master';
-    const downloadUrl = `${repoUrl}/archive/refs/heads/${branch}.tar.gz`;
+    // 1. Get current version for version-specific downloads
+    const pkgPath_self = path.join(__dirname, '..', 'package.json');
+    let version = 'master'; // Fallback
+    try {
+        const pkgData = JSON.parse(fs.readFileSync(pkgPath_self, 'utf8'));
+        version = pkgData.version;
+    } catch (e) {
+        console.warn('[uview-ultra-plus] Could not read package.json version, falling back to master.');
+    }
 
-    console.log(`[uview-ultra-plus] Remote preinstall started. Fetching from ${repoUrl}`);
+    const repoUrl = 'https://github.com/lvli0401/uview-ultra-plus';
+    // Use tag if it's a stable version, else branch
+    const tag = `v${version}`;
+    const downloadUrl = `${repoUrl}/archive/refs/tags/${tag}.tar.gz`;
+    const fallbackUrl = `${repoUrl}/archive/refs/heads/master.tar.gz`;
+
+    console.log(`[uview-ultra-plus] Remote preinstall started. Target Version: ${version}`);
 
     const packages = ['uview-ultra', 'lime-dayuts'];
 
@@ -41,19 +53,31 @@ function install() {
             fs.mkdirSync(targetDir, { recursive: true });
 
             // Using curl | tar to extract specific folder from the remote archive
-            // Archive root is usually {repo-name}-{branch}
-            const archiveRoot = `uview-ultra-plus-${branch}`;
+            // Archive root for tags is usually {repo-name}-{version-without-v}
+            const archiveRoot = `uview-ultra-plus-${version}`;
             const extractPath = `${archiveRoot}/${pkg}`;
             
             try {
-                // --strip-components=2 handles pulling content out of the archiveRoot/pkg/ structure
-                execSync(`curl -L ${downloadUrl} | tar -xz -C ${targetDir} --strip-components=2 ${extractPath}`, {
+                // Try downloading the version tag
+                console.log(`[uview-ultra-plus] Downloading ${pkg} (tag ${tag})...`);
+                execSync(`curl -fL ${downloadUrl} | tar -xz -C ${targetDir} --strip-components=2 ${extractPath}`, {
                     stdio: 'inherit'
                 });
                 console.log(`[uview-ultra-plus] Successfully installed ${pkg}.`);
             } catch (innerErr) {
-                console.error(`[uview-ultra-plus] Failed to extract ${pkg}.`);
-                throw innerErr;
+                // If tag fails, try master branch as fallback (useful for development versions)
+                console.warn(`[uview-ultra-plus] Tag ${tag} not found, falling back to master...`);
+                const fallbackArchiveRoot = 'uview-ultra-plus-master';
+                const fallbackExtractPath = `${fallbackArchiveRoot}/${pkg}`;
+                try {
+                    execSync(`curl -fL ${fallbackUrl} | tar -xz -C ${targetDir} --strip-components=2 ${fallbackExtractPath}`, {
+                        stdio: 'inherit'
+                    });
+                    console.log(`[uview-ultra-plus] Successfully installed ${pkg} (master).`);
+                } catch (lastErr) {
+                    console.error(`[uview-ultra-plus] Failed to extract ${pkg} from tag or master.`);
+                    throw lastErr;
+                }
             }
         });
 
