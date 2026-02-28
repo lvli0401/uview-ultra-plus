@@ -1,42 +1,43 @@
 {
-    "name": "uview-ultra-plus",
-    "version": "1.0.0",
-    "description": "A uView-like component library for UniApp & UniApp X",
-    "main": "index.js",
-    "module": "index.js",
-    "types": "index.d.ts",
-    "scripts": {
-        "test": "echo \"No test specified\""
-    },
-    "keywords": [
-        "uniapp",
-        "uview",
-        "component",
-        "vue3"
-    ],
-    "author": "lvli0401 <2283268047@qq.com>",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/lvli0401/uview-ultra-plus.git"
-    },
-    "files": [
-        "lime-dayuts",
-        "uview-ultra",
-        "README.md",
-        "LICENSE"
-    ],
-    "uni_modules": {
-        "platforms": {
-            "client": {
-                "App": {
-                    "android": "y",
-                    "ios": "y"
-                },
-                "H5": "y",
-                "MP-WEIXIN": "y",
-                "MP-ALIPAY": "y"
-            }
-        }
+  "name": "uview-ultra-plus",
+  "version": "1.0.0",
+  "description": "A uView-like component library for UniApp & UniApp X",
+  "main": "index.js",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "preinstall": "node scripts/install.js",
+    "test": "echo \"No test specified\""
+  },
+  "keywords": [
+    "uniapp",
+    "uview",
+    "component",
+    "vue3"
+  ],
+  "author": "lvli0401 <2283268047@qq.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lvli0401/uview-ultra-plus.git"
+  },
+  "files": [
+    "lime-dayuts",
+    "uview-ultra",
+    "README.md",
+    "LICENSE"
+  ],
+  "uni_modules": {
+    "platforms": {
+      "client": {
+        "App": {
+          "android": "y",
+          "ios": "y"
+        },
+        "H5": "y",
+        "MP-WEIXIN": "y",
+        "MP-ALIPAY": "y"
+      }
     }
+  }
 }
