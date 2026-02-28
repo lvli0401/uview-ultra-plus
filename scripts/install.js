@@ -52,6 +52,15 @@ function install() {
             fs.mkdirSync(targetBaseDir, { recursive: true });
         }
 
+        // Clean up existing components to ensure a fresh install
+        filesToExtract.forEach(file => {
+            const existingPath = path.join(targetBaseDir, file);
+            if (fs.existsSync(existingPath)) {
+                console.log(`[uview-ultra-plus] Cleaning up existing ${file}...`);
+                fs.rmSync(existingPath, { recursive: true, force: true });
+            }
+        });
+
         // Map to internal NPM tarball paths (always starts with "package/")
         const tarPaths = filesToExtract.map(f => `"package/${f}"`).join(' ');
 
