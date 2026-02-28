@@ -27,7 +27,8 @@
   },
   "files": [
     "lime-dayuts",
-    "uview-ultra"
+    "uview-ultra",
+    "scripts"
   ],
   "uni_modules": {
     "platforms": {

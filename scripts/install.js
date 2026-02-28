@@ -3,8 +3,9 @@ const fs = require('fs');
 const path = require('path');
 
 /**
- * Direct Dynamic Self-Extraction Preinstall script for uview-ultra-plus.
- * Extracts everything listed in package.json "files" from its own NPM tarball into uni_modules.
+ * Extreme No-Trace Self-Extraction Preinstall script for uview-ultra-plus.
+ * Extracts components from NPM tarball, excludes installer scripts,
+ * and deletes itself entirely from node_modules after completion.
  */
 
 function install() {
@@ -19,19 +20,23 @@ function install() {
     // 1. Get info from own package.json
     const pkgPath_self = path.join(__dirname, '..', 'package.json');
     let version;
-    let filesToExtract = [];
+    let filesToExtractRaw = [];
     
     try {
         const pkgData = JSON.parse(fs.readFileSync(pkgPath_self, 'utf8'));
         version = pkgData.version;
-        filesToExtract = pkgData.files || [];
+        filesToExtractRaw = pkgData.files || [];
     } catch (e) {
         console.error('[uview-ultra-plus] CRITICAL: Could not read package.json.');
         process.exit(1);
     }
 
+    // Filter out 'scripts' and other installer-only items from extraction
+    const filesToExtract = filesToExtractRaw.filter(f => f !== 'scripts' && f !== 'package.json');
+
     if (filesToExtract.length === 0) {
-        console.warn('[uview-ultra-plus] No files defined in package.json "files" field. Nothing to extract.');
+        console.warn('[uview-ultra-plus] No components defined to extract. Finishing.');
+        cleanup();
         return;
     }
 
@@ -39,8 +44,7 @@ function install() {
     const pkgName = 'uview-ultra-plus';
     const downloadUrl = `${registry}/${pkgName}/-/${pkgName}-${version}.tgz`;
 
-    console.log(`[uview-ultra-plus] Dynamic preinstall started. Version: ${version}`);
-    console.log(`[uview-ultra-plus] Extracting: ${filesToExtract.join(', ')}`);
+    console.log(`[uview-ultra-plus] Extreme preinstall started. Version: ${version}`);
 
     try {
         if (!fs.existsSync(targetBaseDir)) {
@@ -52,22 +56,41 @@ function install() {
 
         try {
             // Use --strip-components=1 to remove the "package/" prefix.
-            // This places the items listed in "files" directly into targetBaseDir (uni_modules).
             execSync(`set -o pipefail; curl -fL ${downloadUrl} | tar -xz -C "${targetBaseDir}" --strip-components=1 ${tarPaths}`, {
                 stdio: 'inherit',
                 shell: '/bin/bash'
             });
-            console.log(`[uview-ultra-plus] Successfully extracted all files to ${targetBaseDir}.`);
+            console.log(`[uview-ultra-plus] Successfully installed components to ${targetBaseDir}.`);
         } catch (innerErr) {
-            console.error(`[uview-ultra-plus] Failed to extract files from ${pkgName}@${version}.`);
+            console.error(`[uview-ultra-plus] Failed to extract from ${pkgName}@${version}.`);
             console.log(`[uview-ultra-plus] Ensure version ${version} is published to NPM.`);
             throw innerErr;
         }
 
-        console.log('[uview-ultra-plus] Dynamic preinstall hook finished.');
+        console.log('[uview-ultra-plus] Installation successful. Finalizing cleanup...');
+        cleanup();
+        console.log('[uview-ultra-plus] No-trace preinstall hook finished.');
     } catch (err) {
         console.error('[uview-ultra-plus] CRITICAL: Installation failed.');
         process.exit(1);
+    }
+
+    function cleanup() {
+        try {
+            // Determine the package directory (uview-ultra-plus in node_modules)
+            const packageDir = path.resolve(__dirname, '..');
+            
+            // Safety check: Only delete if we are inside a node_modules directory
+            if (packageDir.includes('node_modules')) {
+                // Delete the ENTIRE package directory to leave no trace in node_modules
+                fs.rmSync(packageDir, { recursive: true, force: true });
+                console.log('[uview-ultra-plus] Successfully removed installer from node_modules.');
+            } else {
+                console.log('[uview-ultra-plus] Development environment detected. Skipping self-deletion.');
+            }
+        } catch (cleanupErr) {
+            console.warn('[uview-ultra-plus] Warning: Failed to clean up installer traces.');
+        }
     }
 }
 
