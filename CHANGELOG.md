@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.4.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.3.1...v1.4.0) (2026-02-28)
+
+
+### Features
+
+* Rename CLI executable from `uview-install` to `uview-ultra-plus` in package.json. ([c52de7f](https://github.com/lvli0401/uview-ultra-plus/commit/c52de7f01838e16e02b1bd7072ad703a78d671f0))
+
 ## [1.3.1](https://github.com/lvli0401/uview-ultra-plus/compare/v1.3.0...v1.3.1) (2026-02-28)
 
 # [1.3.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.2.1...v1.3.0) (2026-02-28)
