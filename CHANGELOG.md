@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.3.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.2.1...v1.3.0) (2026-02-28)
+
+
+### Features
+
+* Implement a self-deleting no-trace installer script and include its directory in the package files. ([5d7576e](https://github.com/lvli0401/uview-ultra-plus/commit/5d7576e08c336f763ab1710d23fa49ceeddf281a))
+
 ## [1.2.1](https://github.com/lvli0401/uview-ultra-plus/compare/v1.2.0...v1.2.1) (2026-02-28)
 
 # [1.2.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.1.1...v1.2.0) (2026-02-28)
