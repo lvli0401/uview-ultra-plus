@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.5.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.4.2...v1.5.0) (2026-02-28)
+
+
+### Features
+
+* bump version to 1.4.3 and remove `sass` from `peerDependencies` ([f667f23](https://github.com/lvli0401/uview-ultra-plus/commit/f667f231f1026f0021251434e1bca5ac170060fb))
+
 ## [1.4.2](https://github.com/lvli0401/uview-ultra-plus/compare/v1.4.1...v1.4.2) (2026-02-28)
 
 ## [1.4.1](https://github.com/lvli0401/uview-ultra-plus/compare/v1.4.0...v1.4.1) (2026-02-28)
