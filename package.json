@@ -9,7 +9,7 @@
   "module": "index.js",
   "types": "index.d.ts",
   "bin": {
-    "uview-install": "scripts/install.js"
+    "uview-ultra-plus": "scripts/install.js"
   },
   "scripts": {
     "release": "release-it",
