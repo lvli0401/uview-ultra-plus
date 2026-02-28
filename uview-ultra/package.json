@@ -10,7 +10,7 @@
     "uview-ultra",
     "ultraUI",
     "uni-app"
-],
+  ],
   "main": "index.js",
   "engines": {
     "HBuilderX": "^3.1.0",
@@ -40,7 +40,9 @@
     "widescreen": "x"
   },
   "uni_modules": {
-    "dependencies": ["lime-dayuts"],
+    "dependencies": [
+      "lime-dayuts"
+    ],
     "encrypt": [],
     "platforms": {
       "cloud": {
@@ -101,6 +103,9 @@
   "dependencies": {
     "clipboard": "^2.0.11",
     "dayjs": "^1.11.3"
+  },
+  "peerDependencies": {
+    "sass": ">=1.32.0 <1.80.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

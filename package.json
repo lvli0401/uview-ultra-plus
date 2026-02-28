@@ -45,6 +45,9 @@
       }
     }
   },
+  "peerDependencies": {
+    "sass": ">=1.32.0 <1.80.0"
+  },
   "devDependencies": {
     "@release-it/conventional-changelog": "^10.0.5",
     "release-it": "^19.2.4"
