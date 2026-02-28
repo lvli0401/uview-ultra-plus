@@ -3,68 +3,67 @@ const fs = require('fs');
 const path = require('path');
 
 /**
- * Shell Install script for uview-ultra-plus.
- * This runs as a preinstall hook to download the actual component code from NPM
- * and place it into the project's src/uni_modules directory.
+ * Remote Preinstall script for uview-ultra-plus.
+ * Downloads uview-ultra and lime-dayuts from GitHub directly into uni_modules.
  */
 
 function install() {
     const projectRoot = process.env.INIT_CWD || process.cwd();
-    const targetBaseDir = path.join(projectRoot, 'src', 'uni_modules');
+    
+    // Determine target uni_modules path
+    let targetBaseDir = path.join(projectRoot, 'src', 'uni_modules');
+    if (!fs.existsSync(path.join(projectRoot, 'src')) && fs.existsSync(path.join(projectRoot, 'pages.json'))) {
+        targetBaseDir = path.join(projectRoot, 'uni_modules');
+    }
+
+    const repoUrl = 'https://github.com/lvli0401/uview-ultra-plus';
+    const branch = 'master';
+    const downloadUrl = `${repoUrl}/archive/refs/heads/${branch}.tar.gz`;
+
+    console.log(`[uview-ultra-plus] Remote preinstall started. Fetching from ${repoUrl}`);
+
     const packages = ['uview-ultra', 'lime-dayuts'];
 
-    console.log(`[uview-ultra-plus] Shell install started. Target: ${targetBaseDir}`);
-
-    // 1. Ensure target directory exists
-    if (!fs.existsSync(targetBaseDir)) {
-        fs.mkdirSync(targetBaseDir, { recursive: true });
-        console.log(`[uview-ultra-plus] Created directory: ${targetBaseDir}`);
-    }
-
-    const tempDir = path.join(projectRoot, '.uview-temp-' + Date.now());
-    if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);
-
     try {
+        if (!fs.existsSync(targetBaseDir)) {
+            fs.mkdirSync(targetBaseDir, { recursive: true });
+            console.log(`[uview-ultra-plus] Created directory: ${targetBaseDir}`);
+        }
+
         packages.forEach(pkg => {
             const targetDir = path.join(targetBaseDir, pkg);
+            console.log(`[uview-ultra-plus] Downloading and extracting ${pkg} to ${targetDir}...`);
             
-            console.log(`[uview-ultra-plus] Fetching ${pkg} from NPM...`);
+            // Prepare target
+            if (fs.existsSync(targetDir)) {
+                fs.rmSync(targetDir, { recursive: true, force: true });
+            }
+            fs.mkdirSync(targetDir, { recursive: true });
+
+            // Using curl | tar to extract specific folder from the remote archive
+            // Archive root is usually {repo-name}-{branch}
+            const archiveRoot = `uview-ultra-plus-${branch}`;
+            const extractPath = `${archiveRoot}/${pkg}`;
             
             try {
-                // Download tarball using npm pack
-                const tarballName = execSync(`npm pack ${pkg}`, { cwd: tempDir, encoding: 'utf8' }).trim();
-                const tarballPath = path.join(tempDir, tarballName);
-
-                // Prepare target directory
-                if (fs.existsSync(targetDir)) {
-                    // Using a safer way to clear the directory if needed, or just overwrite
-                    console.log(`[uview-ultra-plus] Updating existing ${pkg} in ${targetDir}...`);
-                } else {
-                    fs.mkdirSync(targetDir, { recursive: true });
-                }
-
-                // Extract tarball
-                // npm pack creates a tarball where everything is in a 'package' folder
-                console.log(`[uview-ultra-plus] Extracting ${pkg} to ${targetDir}...`);
-                
-                // Use tar command (available on Mac/Linux)
-                execSync(`tar -xzf ${tarballPath} -C ${targetDir} --strip-components=1`);
-                
+                // --strip-components=2 handles pulling content out of the archiveRoot/pkg/ structure
+                execSync(`curl -L ${downloadUrl} | tar -xz -C ${targetDir} --strip-components=2 ${extractPath}`, {
+                    stdio: 'inherit'
+                });
                 console.log(`[uview-ultra-plus] Successfully installed ${pkg}.`);
-            } catch (err) {
-                console.error(`[uview-ultra-plus] Failed to install ${pkg}. It might not be on the NPM registry yet.`);
-                console.log(`[uview-ultra-plus] Error details: ${err.message}`);
+            } catch (innerErr) {
+                console.error(`[uview-ultra-plus] Failed to extract ${pkg}.`);
+                throw innerErr;
             }
         });
-    } finally {
-        // Cleanup temp directory
-        if (fs.existsSync(tempDir)) {
-            console.log(`[uview-ultra-plus] Cleaning up temporary files...`);
-            fs.rmSync(tempDir, { recursive: true, force: true });
-        }
-    }
 
-    console.log('[uview-ultra-plus] Shell install hook finished.');
+        console.log('[uview-ultra-plus] Remote preinstall hook finished.');
+    } catch (err) {
+        console.error('[uview-ultra-plus] CRITICAL: Remote installation failed.');
+        console.error(`[uview-ultra-plus] Error details: ${err.message}`);
+        // We exit(1) to stop the installation if we can't get the core components
+        process.exit(1);
+    }
 }
 
 install();
