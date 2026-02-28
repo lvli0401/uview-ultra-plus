@@ -27,9 +27,7 @@
   },
   "files": [
     "lime-dayuts",
-    "uview-ultra",
-    "README.md",
-    "LICENSE"
+    "uview-ultra"
   ],
   "uni_modules": {
     "platforms": {
