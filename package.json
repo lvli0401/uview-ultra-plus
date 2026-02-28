@@ -10,6 +10,7 @@
   "types": "index.d.ts",
   "scripts": {
     "preinstall": "node scripts/install.js",
+    "release": "release-it",
     "test": "echo \"No test specified\""
   },
   "keywords": [
@@ -42,5 +43,9 @@
         "MP-ALIPAY": "y"
       }
     }
+  },
+  "devDependencies": {
+    "@release-it/conventional-changelog": "^10.0.5",
+    "release-it": "^19.2.4"
   }
 }
