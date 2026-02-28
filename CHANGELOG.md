@@ -1,0 +1,15 @@
+# Changelog
+
+# 1.1.0 (2026-02-28)
+
+
+### Bug Fixes
+
+* remove comment ([302481a](https://github.com/lvli0401/uview-ultra-plus/commit/302481af618fd6d18195ca7376398636a0605c52))
+
+
+### Features
+
+* Add preinstall script to automatically download and extract component packages into `src/uni_modules`. ([22ce70d](https://github.com/lvli0401/uview-ultra-plus/commit/22ce70da1c1c8d2c263a348851da124e6cc3035e))
+* initialize project with basic metadata and documentation ([2698dee](https://github.com/lvli0401/uview-ultra-plus/commit/2698dee879e4df5768fe6cde7a05a5ebad135ae6))
+* introduce lime-dayuts, a dayjs-like UTS date utility library with date manipulation, formatting, and internationalization capabilities. ([1641e17](https://github.com/lvli0401/uview-ultra-plus/commit/1641e17d3b38e9c6d60c3191268c8bd59d87ada7))
