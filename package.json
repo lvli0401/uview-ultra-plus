@@ -8,8 +8,10 @@
   "main": "index.js",
   "module": "index.js",
   "types": "index.d.ts",
+  "bin": {
+    "uview-install": "scripts/install.js"
+  },
   "scripts": {
-    "preinstall": "node scripts/install.js",
     "release": "release-it",
     "test": "echo \"No test specified\""
   },

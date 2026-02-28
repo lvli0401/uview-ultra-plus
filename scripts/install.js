@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
@@ -69,7 +70,7 @@ function install() {
 
         console.log('[uview-ultra-plus] Installation successful. Finalizing cleanup...');
         cleanup();
-        console.log('[uview-ultra-plus] No-trace preinstall hook finished.');
+        console.log('[uview-ultra-plus] No-trace installer finished.');
     } catch (err) {
         console.error('[uview-ultra-plus] CRITICAL: Installation failed.');
         process.exit(1);
