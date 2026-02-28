@@ -1,6 +1,9 @@
 {
   "name": "uview-ultra-plus",
   "version": "1.0.0",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "description": "A uView-like component library for UniApp & UniApp X",
   "main": "index.js",
   "module": "index.js",
