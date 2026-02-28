@@ -1,6 +1,6 @@
 {
   "name": "uview-ultra-plus",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -44,9 +44,6 @@
         "MP-ALIPAY": "y"
       }
     }
-  },
-  "peerDependencies": {
-    "sass": ">=1.32.0 <1.80.0"
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^10.0.5",
