@@ -10,7 +10,7 @@
     "publish": true
   },
   "hooks": {
-    "after:bump": "echo \"Updated version to ${version}\""
+    "after:bump": "cd uview-ultra && npm version ${version} --no-git-tag-version && git add package.json"
   },
   "plugins": {
     "@release-it/conventional-changelog": {
