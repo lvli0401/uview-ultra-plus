@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.6.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.5.1...v1.6.0) (2026-03-01)
+
+
+### Features
+
+* Add new TypeScript declaration entry point, remove `sass` peer dependency, and refine release versioning hook. ([f984bc7](https://github.com/lvli0401/uview-ultra-plus/commit/f984bc75f3ee9926ca3a9f20ef2bbad2ee6afc67))
+
 ## [1.5.1](https://github.com/lvli0401/uview-ultra-plus/compare/v1.5.0...v1.5.1) (2026-02-28)
 
 # [1.5.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.4.2...v1.5.0) (2026-02-28)
