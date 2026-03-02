@@ -458,11 +458,11 @@ export default {
 		setMonth() {
 			// 最小日期的毫秒数
 			// @ts-ignore
-			const minDate = this.innerMinDate != '' ? this.innerMinDate : dayuts().valueOf()
+			const minDate = (this.innerMinDate != '' && this.innerMinDate != '0') ? this.innerMinDate : dayuts().valueOf()
 			// 如果没有指定最大日期，则往后推3个月
 			const maxDate =
 			// @ts-ignore
-				this.innerMaxDate != '' ? this.innerMaxDate :
+				(this.innerMaxDate != '' && this.innerMaxDate != '0') ? this.innerMaxDate :
 				dayuts(minDate)
 				// @ts-ignore
 					.add((this.monthNum as number) - 1, 'month')
@@ -542,9 +542,6 @@ export default {
 				}
 				// @ts-ignore
 				this.months.push(md)
-				console.log('&&&&&&&&&&&&&&&&&&&&&')
-				// @ts-ignore
-				console.log(this.months)
 			}
 		},
 		// 滚动到默认设置的月份
