@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.10.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.9.1...v1.10.0) (2026-03-02)
+
+
+### Features
+
+* Introduce a build process to bundle dependencies and prepare the project for distribution. ([4fedfbb](https://github.com/lvli0401/uview-ultra-plus/commit/4fedfbb9202c22d428a2f73cb1198ab959d2f9b2))
+
 ## [1.9.1](https://github.com/lvli0401/uview-ultra-plus/compare/v1.9.0...v1.9.1) (2026-03-02)
 
 
