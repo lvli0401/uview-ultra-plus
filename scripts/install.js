@@ -33,12 +33,18 @@ function install() {
         version = pkgData.version;
         
         // Dynamically find items in the distribution folder
-        const distDir = path.dirname(pkgPath_self);
-        const excludes = ['scripts', 'package.json', 'index.js', 'index.d.ts', 'theme.scss', 'node_modules', 'dist'];
+        const packageRoot = path.dirname(pkgPath_self);
+        // During development, sources are in root. In production/dist, they are in dist/
+        let distDir = path.join(packageRoot, 'dist');
+        if (!fs.existsSync(distDir)) {
+            distDir = packageRoot;
+        }
+
+        const excludes = ['scripts', 'package.json', 'index.js', 'index.d.ts', 'theme.scss', 'node_modules', 'dist', 'vendor'];
         
         filesToExtractRaw = fs.readdirSync(distDir).filter(item => {
             // We want to extract folders/files that are NOT in the exclude list
-            return !excludes.includes(item);
+            return !excludes.includes(item) && !item.startsWith('.');
         });
 
         if (filesToExtractRaw.length === 0) {
