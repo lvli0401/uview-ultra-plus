@@ -19,14 +19,33 @@ function install() {
         : path.join(projectRoot, 'uni_modules');
 
     // 1. Get info from own package.json
-    const pkgPath_self = path.join(__dirname, '..', 'package.json');
+    // It could be in '..' (dev) or '../..' (production /dist/scripts/)
+    let pkgPath_self = path.join(__dirname, '..', 'package.json');
+    if (!fs.existsSync(pkgPath_self)) {
+        pkgPath_self = path.join(__dirname, '../..', 'package.json');
+    }
+
     let version;
     let filesToExtractRaw = [];
     
     try {
         const pkgData = JSON.parse(fs.readFileSync(pkgPath_self, 'utf8'));
         version = pkgData.version;
-        filesToExtractRaw = pkgData.files || [];
+        
+        // Dynamically find items in the distribution folder
+        const distDir = path.dirname(pkgPath_self);
+        const excludes = ['scripts', 'package.json', 'index.js', 'index.d.ts', 'theme.scss', 'node_modules', 'dist'];
+        
+        filesToExtractRaw = fs.readdirSync(distDir).filter(item => {
+            // We want to extract folders/files that are NOT in the exclude list
+            return !excludes.includes(item);
+        });
+
+        if (filesToExtractRaw.length === 0) {
+            console.warn('[uview-ultra-plus] No components detected to extract.');
+        } else {
+            console.log(`[uview-ultra-plus] Detected modules for extraction: ${filesToExtractRaw.join(', ')}`);
+        }
     } catch (e) {
         console.error('[uview-ultra-plus] CRITICAL: Could not read package.json.');
         process.exit(1);
@@ -61,12 +80,12 @@ function install() {
             }
         });
 
-        // Map to internal NPM tarball paths (always starts with "package/")
-        const tarPaths = filesToExtract.map(f => `"package/${f}"`).join(' ');
+        // Map to internal NPM tarball paths (always starts with "package/dist/")
+        const tarPaths = filesToExtract.map(f => `"package/dist/${f}"`).join(' ');
 
         try {
-            // Use --strip-components=1 to remove the "package/" prefix.
-            execSync(`set -o pipefail; curl -fL ${downloadUrl} | tar -xz -C "${targetBaseDir}" --strip-components=1 ${tarPaths}`, {
+            // Use --strip-components=2 to remove "package/dist/" prefix.
+            execSync(`set -o pipefail; curl -fL ${downloadUrl} | tar -xz -C "${targetBaseDir}" --strip-components=2 ${tarPaths}`, {
                 stdio: 'inherit',
                 shell: '/bin/bash'
             });
@@ -88,7 +107,11 @@ function install() {
     function cleanup() {
         try {
             // Determine the package directory (uview-ultra-plus in node_modules)
-            const packageDir = path.resolve(__dirname, '..');
+            // It could be '..' or '../..' depending on if we are in dist/
+            let packageDir = path.resolve(__dirname, '..');
+            if (path.basename(packageDir) === 'dist') {
+                packageDir = path.resolve(packageDir, '..');
+            }
             
             // Safety check: Only delete if we are inside a node_modules directory
             if (packageDir.includes('node_modules')) {

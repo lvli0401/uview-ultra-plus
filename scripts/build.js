@@ -1,0 +1,80 @@
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+
+/**
+ * Build script for uview-ultra-plus
+ * 1. Clean dist folder
+ * 2. Copy uview-ultra and lime-dayuts to dist
+ * 3. Run rollup to bundle vendors into dist/uview-ultra/vendor
+ * 4. Run patch-imports.js on dist/uview-ultra
+ */
+
+const projectRoot = path.resolve(__dirname, '..');
+const distPath = path.join(projectRoot, 'dist');
+
+function clean() {
+    console.log('[Build] Cleaning dist...');
+    if (fs.existsSync(distPath)) {
+        fs.rmSync(distPath, { recursive: true, force: true });
+    }
+    fs.mkdirSync(distPath, { recursive: true });
+}
+
+function copySource() {
+    console.log('[Build] Copying source to dist (excluding node_modules)...');
+    const sources = ['uview-ultra', 'lime-dayuts', 'scripts', 'index.js', 'index.d.ts', 'theme.scss', 'package.json'];
+    sources.forEach(src => {
+        const srcPath = path.join(projectRoot, src);
+        const destPath = path.join(distPath, src);
+        if (fs.existsSync(srcPath)) {
+            // Use rsync to copy while excluding node_modules
+            try {
+                execSync(`rsync -aq --exclude='node_modules' "${srcPath}" "${distPath}/"`);
+            } catch (e) {
+                // Fallback for environments without rsync (though unlikely on Mac)
+                if (fs.lstatSync(srcPath).isDirectory()) {
+                    copyRecursiveSync(srcPath, destPath);
+                } else {
+                    fs.copyFileSync(srcPath, destPath);
+                }
+            }
+        }
+    });
+}
+
+function copyRecursiveSync(src, dest) {
+    if (src.includes('node_modules')) return;
+    const exists = fs.existsSync(src);
+    const stats = exists && fs.statSync(src);
+    const isDirectory = exists && stats.isDirectory();
+    if (isDirectory) {
+        if (!fs.existsSync(dest)) fs.mkdirSync(dest);
+        fs.readdirSync(src).forEach(childItemName => {
+            copyRecursiveSync(path.join(src, childItemName), path.join(dest, childItemName));
+        });
+    } else {
+        fs.copyFileSync(src, dest);
+    }
+}
+
+function runRollup() {
+    console.log('[Build] Running Rollup for vendors...');
+    execSync('npm run rollup', { stdio: 'inherit', cwd: projectRoot });
+}
+
+function patchImports() {
+    console.log('[Build] Patching imports in dist...');
+    require('./patch-imports.js');
+}
+
+try {
+    clean();
+    copySource();
+    runRollup();
+    patchImports();
+    console.log('[Build] Successfully completed!');
+} catch (err) {
+    console.error('[Build] Failed:', err.message);
+    process.exit(1);
+}
