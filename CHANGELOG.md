@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.7.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.6.0...v1.7.0) (2026-03-02)
+
+
+### Features
+
+* Replace local dayjs import with npm package and remove unused file ([7e8746b](https://github.com/lvli0401/uview-ultra-plus/commit/7e8746bcc85d353537221b646be96af7418912ed))
+
 # [1.6.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.5.1...v1.6.0) (2026-03-01)
 
 
