@@ -65,7 +65,7 @@ export default {
 	    }
 	},
 	// 将mixin挂在到组件中，实际上为一个vue格式对象。
-	mixins: [props],
+	mixins: [mpMixin, mixin, props, transitionMixin],
 	watch: {
 		show: {
 			handler(newVal) {
