@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.9.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.8.0...v1.9.0) (2026-03-02)
+
+
+### Features
+
+* 移除 transitionMixin 从组件的 mixins 列表 ([e23fc89](https://github.com/lvli0401/uview-ultra-plus/commit/e23fc898e18820bfdb12be5445bcd1c233bf4886))
+
 # [1.8.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.7.0...v1.8.0) (2026-03-02)
 
 
