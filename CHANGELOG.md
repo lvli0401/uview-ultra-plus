@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.1](https://github.com/lvli0401/uview-ultra-plus/compare/v1.10.0...v1.10.1) (2026-03-02)
+
+
+### Bug Fixes
+
+* Enhance install script's file extraction logic to support dev/dist paths and exclude more files, and ensure build before release. ([d90093a](https://github.com/lvli0401/uview-ultra-plus/commit/d90093aa41da272ffaf0fe6b6148cb547008e5c2))
+
 # [1.10.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.9.1...v1.10.0) (2026-03-02)
 
 
