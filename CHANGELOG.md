@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.1](https://github.com/lvli0401/uview-ultra-plus/compare/v1.9.0...v1.9.1) (2026-03-02)
+
+
+### Bug Fixes
+
+* 修复最小和最大日期的判断逻辑，确保有效性 ([09e6bbb](https://github.com/lvli0401/uview-ultra-plus/commit/09e6bbb9c2015a1540c9a45333fb0e35c381e4a4))
+
 # [1.9.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.8.0...v1.9.0) (2026-03-02)
 
 
