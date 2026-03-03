@@ -25,15 +25,15 @@ function copySource() {
     console.log('[Build] Copying source to dist (excluding node_modules)...');
     
     // Main components
-    const uviewSrc = path.join(projectRoot, 'src/uview-ultra');
+    const uviewSrc = path.join(projectRoot, 'packages/uview-ultra');
     const uviewDest = path.join(distPath, 'uview-ultra');
     
     if (fs.existsSync(uviewSrc)) {
         execSync(`rsync -aq --exclude='node_modules' --exclude='uts-libs' "${uviewSrc}/" "${uviewDest}/"`);
     }
 
-    // lime-dayuts (moved to src/uview-ultra/uts-libs/lime-dayuts)
-    const limeSrc = path.join(projectRoot, 'src/uview-ultra/uts-libs/lime-dayuts');
+    // lime-dayuts (moved to packages/uview-ultra/uts-libs/lime-dayuts)
+    const limeSrc = path.join(projectRoot, 'packages/uview-ultra/uts-libs/lime-dayuts');
     const limeDest = path.join(distPath, 'lime-dayuts');
     if (fs.existsSync(limeSrc)) {
         if (!fs.existsSync(limeDest)) fs.mkdirSync(limeDest, { recursive: true });
@@ -65,7 +65,7 @@ function patchImports() {
  */
 function syncExamples() {
     console.log('[Build] Syncing source to examples...');
-    const uviewSrc = path.join(projectRoot, 'src/uview-ultra');
+    const uviewSrc = path.join(projectRoot, 'packages/uview-ultra');
     const exampleTargets = [
         path.join(projectRoot, 'examples/uniapp/src/uni_modules/uview-ultra'),
         path.join(projectRoot, 'examples/uniapp-x/uni_modules/uview-ultra')

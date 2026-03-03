@@ -1,6 +1,10 @@
 {
   "name": "uview-ultra-plus",
   "version": "1.11.1",
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
