@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.11.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.10.4...v1.11.0) (2026-03-03)
+
+
+### Features
+
+* Add uview-ultra-plus UI library and its dependencies to UniApp example. ([9208b71](https://github.com/lvli0401/uview-ultra-plus/commit/9208b7120e72ae3bb9bc6662d8942c1c2c0ecae4))
+
 ## [1.10.4](https://github.com/lvli0401/uview-ultra-plus/compare/v1.10.3...v1.10.4) (2026-03-03)
 
 ## [1.10.3](https://github.com/lvli0401/uview-ultra-plus/compare/v1.10.2...v1.10.3) (2026-03-03)
