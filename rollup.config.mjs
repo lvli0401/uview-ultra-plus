@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const vendorPath = path.resolve(__dirname, 'dist/uview-ultra/vendor');
-const subNodeModules = path.resolve(__dirname, 'uview-ultra/node_modules');
+const subNodeModules = path.resolve(__dirname, 'src/uview-ultra/node_modules');
 
 export default [
   {

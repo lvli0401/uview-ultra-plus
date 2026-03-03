@@ -23,22 +23,29 @@ function clean() {
 
 function copySource() {
     console.log('[Build] Copying source to dist (excluding node_modules)...');
-    const sources = ['uview-ultra', 'lime-dayuts', 'scripts', 'index.js', 'index.d.ts', 'theme.scss', 'package.json'];
-    sources.forEach(src => {
-        const srcPath = path.join(projectRoot, src);
-        const destPath = path.join(distPath, src);
+    
+    // Main components
+    const uviewSrc = path.join(projectRoot, 'src/uview-ultra');
+    const uviewDest = path.join(distPath, 'uview-ultra');
+    
+    if (fs.existsSync(uviewSrc)) {
+        execSync(`rsync -aq --exclude='node_modules' --exclude='uts-libs' "${uviewSrc}/" "${uviewDest}/"`);
+    }
+
+    // lime-dayuts (moved to src/uview-ultra/uts-libs/lime-dayuts)
+    const limeSrc = path.join(projectRoot, 'src/uview-ultra/uts-libs/lime-dayuts');
+    const limeDest = path.join(distPath, 'lime-dayuts');
+    if (fs.existsSync(limeSrc)) {
+        if (!fs.existsSync(limeDest)) fs.mkdirSync(limeDest, { recursive: true });
+        execSync(`rsync -aq --exclude='node_modules' "${limeSrc}/" "${limeDest}/"`);
+    }
+
+    // Other core files
+    const otherFiles = ['scripts', 'index.js', 'index.d.ts', 'theme.scss', 'package.json'];
+    otherFiles.forEach(file => {
+        const srcPath = path.join(projectRoot, file);
         if (fs.existsSync(srcPath)) {
-            // Use rsync to copy while excluding node_modules
-            try {
-                execSync(`rsync -aq --exclude='node_modules' "${srcPath}" "${distPath}/"`);
-            } catch (e) {
-                // Fallback for environments without rsync (though unlikely on Mac)
-                if (fs.lstatSync(srcPath).isDirectory()) {
-                    copyRecursiveSync(srcPath, destPath);
-                } else {
-                    fs.copyFileSync(srcPath, destPath);
-                }
-            }
+            execSync(`rsync -aq --exclude='node_modules' "${srcPath}" "${distPath}/"`);
         }
     });
 }

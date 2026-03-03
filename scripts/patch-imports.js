@@ -31,11 +31,19 @@ const replacements = [
             const relPath = path.relative(path.dirname(filePath), path.join(distUViewPath, 'vendor/clipboard.min.js'));
             return `import Clipboard from './${relPath}'`;
         }
+    },
+    {
+        pattern: /@\/uni_modules\/lime-dayuts/g,
+        replacement: (filePath) => {
+            const relToDist = path.relative(path.dirname(filePath), path.dirname(distUViewPath));
+            // In dist, lime-dayuts is a peer of uview-ultra
+            return `./${relToDist}/lime-dayuts`;
+        }
     }
 ];
 
 function patchFile(filePath) {
-    if (!['.js', '.vue', '.uvue'].some(ext => filePath.endsWith(ext))) return;
+    if (!['.js', '.vue', '.uvue', '.uts'].some(ext => filePath.endsWith(ext))) return;
 
     let content = fs.readFileSync(filePath, 'utf8');
     let changed = false;
