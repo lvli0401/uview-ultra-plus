@@ -10,7 +10,7 @@
     "publish": true
   },
   "hooks": {
-    "after:bump": "npm version ${version} --no-git-tag-version --prefix src/uview-ultra && git add src/uview-ultra/package.json && npm run build"
+    "after:bump": "npm version ${version} --no-git-tag-version --prefix src/uview-ultra && npm version ${version} --no-git-tag-version --prefix examples/uniapp && npm run build && git add src/uview-ultra/package.json examples/uniapp/package.json"
   },
   "plugins": {
     "@release-it/conventional-changelog": {

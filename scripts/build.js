@@ -60,11 +60,34 @@ function patchImports() {
     require('./patch-imports.js');
 }
 
+/**
+ * Synchronize source to examples for local testing
+ */
+function syncExamples() {
+    console.log('[Build] Syncing source to examples...');
+    const uviewSrc = path.join(projectRoot, 'src/uview-ultra');
+    const exampleTargets = [
+        path.join(projectRoot, 'examples/uniapp/src/uni_modules/uview-ultra'),
+        path.join(projectRoot, 'examples/uniapp-x/uni_modules/uview-ultra')
+    ];
+
+    exampleTargets.forEach(target => {
+        if (fs.existsSync(path.dirname(target))) {
+            console.log(`[Build] Syncing to ${path.relative(projectRoot, target)}...`);
+            if (fs.existsSync(target)) {
+                fs.rmSync(target, { recursive: true, force: true });
+            }
+            execSync(`rsync -aq --exclude='node_modules' "${uviewSrc}/" "${target}/"`);
+        }
+    });
+}
+
 try {
     clean();
     copySource();
     runRollup();
     patchImports();
+    syncExamples();
     console.log('[Build] Successfully completed!');
 } catch (err) {
     console.error('[Build] Failed:', err.message);
