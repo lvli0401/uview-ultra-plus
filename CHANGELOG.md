@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.12.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.11.1...v1.12.0) (2026-03-03)
+
+
+### Features
+
+* Initialize VitePress documentation site with guides, component pages, and a custom theme featuring a phone simulator. ([b1ef27b](https://github.com/lvli0401/uview-ultra-plus/commit/b1ef27bba85ad06aa4839530a56ff9650cb0d113))
+
 ## [1.11.1](https://github.com/lvli0401/uview-ultra-plus/compare/v1.11.0...v1.11.1) (2026-03-03)
 
 # [1.11.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.10.4...v1.11.0) (2026-03-03)
