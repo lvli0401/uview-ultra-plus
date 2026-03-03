@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.12.1](https://github.com/lvli0401/uview-ultra-plus/compare/v1.12.0...v1.12.1) (2026-03-03)
+
 # [1.12.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.11.1...v1.12.0) (2026-03-03)
 
 
