@@ -21,6 +21,7 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
+    "watch:examples": "node scripts/build.js --watch",
     "rollup": "rollup -c rollup.config.mjs",
     "test": "echo \"No test specified\""
   },
@@ -57,6 +58,7 @@
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
+    "chokidar": "^5.0.0",
     "release-it": "^19.2.4",
     "rollup": "^4.59.0",
     "vitepress": "^1.6.4",

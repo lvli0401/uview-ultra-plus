@@ -22,16 +22,8 @@ function clean() {
 }
 
 function copySource() {
-    console.log('[Build] Copying source to dist (excluding node_modules)...');
+    console.log('[Build] Copying other core files to dist...');
     
-    // Main components
-    const uviewSrc = path.join(projectRoot, 'packages/uview-ultra');
-    const uviewDest = path.join(distPath, 'uview-ultra');
-    
-    if (fs.existsSync(uviewSrc)) {
-        execSync(`rsync -aq --exclude='node_modules' --exclude='uts-libs' "${uviewSrc}/" "${uviewDest}/"`);
-    }
-
     // lime-dayuts (moved to packages/uview-ultra/uts-libs/lime-dayuts)
     const limeSrc = path.join(projectRoot, 'packages/uview-ultra/uts-libs/lime-dayuts');
     const limeDest = path.join(distPath, 'lime-dayuts');
@@ -60,35 +52,68 @@ function patchImports() {
     require('./patch-imports.js');
 }
 
-/**
- * Synchronize source to examples for local testing
- */
-function syncExamples() {
-    console.log('[Build] Syncing source to examples...');
-    const uviewSrc = path.join(projectRoot, 'packages/uview-ultra');
-    const exampleTargets = [
-        path.join(projectRoot, 'examples/uniapp/src/uni_modules/uview-ultra'),
-        path.join(projectRoot, 'examples/uniapp-x/uni_modules/uview-ultra')
-    ];
+const chokidar = require('chokidar');
+const { syncSourceToDist, syncExamples } = require('./sync-logic.js');
 
-    exampleTargets.forEach(target => {
-        if (fs.existsSync(path.dirname(target))) {
-            console.log(`[Build] Syncing to ${path.relative(projectRoot, target)}...`);
-            if (fs.existsSync(target)) {
-                fs.rmSync(target, { recursive: true, force: true });
-            }
-            execSync(`rsync -aq --exclude='node_modules' "${uviewSrc}/" "${target}/"`);
-        }
-    });
-}
-
-try {
+function fullBuild() {
     clean();
-    copySource();
+    syncSourceToDist(); // Sync from packages/uview-ultra to dist/uview-ultra
+    
+    // Copy other core files to dist
+    copySource(); 
+    
     runRollup();
     patchImports();
-    syncExamples();
+    syncExamples(); // Sync from dist/uview-ultra to examples
     console.log('[Build] Successfully completed!');
+}
+
+/**
+ * Watch mode logic
+ */
+function watch() {
+    const watchPath = path.join(projectRoot, 'packages/uview-ultra');
+    console.log(`[Watch] Starting watcher on ${watchPath}...`);
+
+    const watcher = chokidar.watch(watchPath, {
+        ignored: /(^|[\/\\])\../,
+        persistent: true,
+        ignoreInitial: true
+    });
+
+    let timer = null;
+    const debounceSync = () => {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+            console.log('[Watch] Changes detected, rebuilding...');
+            try {
+                // For watch mode, we only need to sync source, patch, and sync examples
+                // Rollup (vendor) usually doesn't need to re-run unless dependencies change
+                syncSourceToDist();
+                patchImports();
+                syncExamples();
+                console.log('[Watch] Sync completed. Waiting for changes...');
+            } catch (e) {
+                console.error(`[Watch] Sync failed: ${e.message}`);
+            }
+        }, 300);
+    };
+
+    watcher
+        .on('all', (event, path) => {
+            console.log(`[Watch] Event ${event} on ${path}`);
+            debounceSync();
+        })
+        .on('error', error => console.log(`[Watch] Watcher error: ${error}`));
+}
+
+const isWatchMode = process.argv.includes('--watch') || process.argv.includes('-w');
+
+try {
+    fullBuild();
+    if (isWatchMode) {
+        watch();
+    }
 } catch (err) {
     console.error('[Build] Failed:', err.message);
     process.exit(1);
