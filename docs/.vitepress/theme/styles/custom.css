@@ -1,0 +1,18 @@
+:root {
+  --vp-c-brand: #3c9cff;
+  --vp-c-brand-light: #60b0ff;
+  --vp-c-brand-lighter: #84c4ff;
+  --vp-c-brand-dark: #2979ff;
+  --vp-c-brand-darker: #1a5cff;
+}
+
+.vp-doc {
+  padding-right: 360px !important;
+}
+
+@media (max-width: 1400px) {
+  .vp-doc {
+    padding-right: 0 !important;
+    max-width: 100% !important;
+  }
+}

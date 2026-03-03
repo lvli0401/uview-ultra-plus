@@ -6,3 +6,5 @@ examples/**/unpackage
 examples/**/dist
 examples/*/.vscode
 examples/*/.hbuilderx
+docs/.vitepress/cache
+docs/.vitepress/dist
