@@ -1,2 +1,8 @@
 node_modules
 dist
+unpackage
+examples/**/node_modules
+examples/**/unpackage
+examples/**/dist
+examples/*/.vscode
+examples/*/.hbuilderx

@@ -1,0 +1,60 @@
+<template>
+	<view class="content">
+		<image class="logo" src="/static/logo.png"></image>
+		<view class="text-area">
+			<text class="title">{{title}}</text>
+		</view>
+		<up-calendar 
+			:show="show" 
+			:closeOnClickOverlay="true" 
+			closeable 
+			@close="show = false" 
+			@confirm="confirm"
+		></up-calendar>
+		<up-button @click="show = !show" class="button" type="primary">
+			{{ show ? '关闭日历' : '打开日历' }}
+		</up-button>
+	</view>
+</template>
+
+<script setup lang="uts">
+	import { ref } from 'vue'
+	const title = ref('Hello')
+	const show = ref(false)
+
+	const confirm = (e : Array<string>) => {
+		show.value = false
+		console.log(e)
+	}
+</script>
+
+<style>
+	.content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.logo {
+		height: 100px;
+		width: 100px;
+		margin: 100px auto 25px auto;
+	}
+
+	.text-area {
+		display: flex;
+		justify-content: center;
+	}
+
+	.title {
+		font-size: 18px;
+		color: #8f8f94;
+		text-align: center;
+	}
+
+	.button {
+		margin-top: 25px;
+		width: 200px;
+	}
+</style>
