@@ -50,21 +50,6 @@ function copySource() {
     });
 }
 
-function copyRecursiveSync(src, dest) {
-    if (src.includes('node_modules')) return;
-    const exists = fs.existsSync(src);
-    const stats = exists && fs.statSync(src);
-    const isDirectory = exists && stats.isDirectory();
-    if (isDirectory) {
-        if (!fs.existsSync(dest)) fs.mkdirSync(dest);
-        fs.readdirSync(src).forEach(childItemName => {
-            copyRecursiveSync(path.join(src, childItemName), path.join(dest, childItemName));
-        });
-    } else {
-        fs.copyFileSync(src, dest);
-    }
-}
-
 function runRollup() {
     console.log('[Build] Running Rollup for vendors...');
     execSync('npm run rollup', { stdio: 'inherit', cwd: projectRoot });
