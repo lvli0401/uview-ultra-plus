@@ -41,10 +41,10 @@ function syncExamples() {
     exampleTargets.forEach(target => {
         if (fs.existsSync(path.dirname(target))) {
             console.log(`[Sync] Syncing to ${path.relative(projectRoot, target)}...`);
-            if (fs.existsSync(target)) {
-                fs.rmSync(target, { recursive: true, force: true });
-            }
             try {
+                if (fs.existsSync(target)) {
+                    execSync(`rm -rf "${target}"`);
+                }
                 execSync(`rsync -aq --exclude='node_modules' "${distPath}/" "${target}/"`);
             } catch (e) {
                 console.error(`[Sync] Failed to sync to ${target}: ${e.message}`);

@@ -15,10 +15,16 @@ const distPath = path.join(projectRoot, 'dist');
 
 function clean() {
     console.log('[Build] Cleaning dist...');
-    if (fs.existsSync(distPath)) {
-        fs.rmSync(distPath, { recursive: true, force: true });
+    try {
+        if (fs.existsSync(distPath)) {
+            execSync(`rm -rf "${distPath}"`);
+        }
+        fs.mkdirSync(distPath, { recursive: true });
+    } catch (e) {
+        console.warn(`[Build] Clean warning: ${e.message}. Retrying...`);
+        // Maybe try one more time or just continue if mkdirSync succeeds
+        if (!fs.existsSync(distPath)) fs.mkdirSync(distPath, { recursive: true });
     }
-    fs.mkdirSync(distPath, { recursive: true });
 }
 
 function copySource() {
