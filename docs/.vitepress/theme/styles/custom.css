@@ -4,15 +4,57 @@
   --vp-c-brand-lighter: #84c4ff;
   --vp-c-brand-dark: #2979ff;
   --vp-c-brand-darker: #1a5cff;
+  --vp-layout-max-width: 100% !important;
 }
 
-.vp-doc {
-  padding-right: 360px !important;
+/* Left-align the sidebar and main content */
+.VPContent.has-sidebar {
+  margin: 0 !important;
+  padding-left: 0 !important;
 }
 
-@media (max-width: 1400px) {
-  .vp-doc {
-    padding-right: 0 !important;
-    max-width: 100% !important;
+@media (min-width: 960px) {
+  .VPSidebar {
+    left: 0 !important;
+    width: 260px !important;
+  }
+
+  .VPContent.has-sidebar {
+    padding-left: 260px !important;
+  }
+}
+
+.VPDoc .container {
+  max-width: 100% !important;
+  margin: 0 !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+}
+
+.VPDoc .content {
+  max-width: 1050px !important;
+  margin: 0 400px 0 40px !important;
+  padding: 32px 0 !important;
+  flex-grow: 1 !important;
+}
+
+/* Hide the default right aside (TOC) because the phone and TOC will conflict */
+/* Or adjust aside to be even more compact. Let's make content wider if aside is empty */
+.VPDoc .aside {
+  display: none !important;
+}
+
+@media (max-width: 1550px) {
+  .VPDoc .content {
+    margin-right: 360px !important;
+    margin-left: 20px !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .VPDoc .content {
+    margin: 0 auto !important;
+    max-width: 800px !important;
+    padding: 0 24px !important;
   }
 }

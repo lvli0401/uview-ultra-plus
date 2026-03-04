@@ -20,7 +20,7 @@
     "build": "node scripts/build.js",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs",
+    "docs:serve": "vitepress preview docs",
     "watch:examples": "node scripts/build.js --watch",
     "rollup": "rollup -c rollup.config.mjs",
     "test": "echo \"No test specified\""

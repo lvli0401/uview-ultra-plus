@@ -5,6 +5,9 @@ import uni from "@dcloudio/vite-plugin-uni";
 export default defineConfig(({mode}) => {
   return {
     plugins: [uni()],
+    server: {
+      port: 5173
+    },
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue', '.nvue', '.uts']
     },

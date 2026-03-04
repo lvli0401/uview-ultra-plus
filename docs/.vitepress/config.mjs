@@ -1,6 +1,14 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
+  vite: {
+    server: {
+      port: 5175
+    },
+    define: {
+      __DEMO_URL__: JSON.stringify(process.env.NODE_ENV === 'production' ? 'https://lvli0401.github.io/uview-ultra-plus/h5/' : 'http://localhost:5173/')
+    }
+  },
   title: "uview-ultra-plus",
   description: "A uView-like component library for UniApp & UniApp X",
   themeConfig: {
