@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.13.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.12.2...v1.13.0) (2026-03-04)
+
+
+### Features
+
+* Enhance demo phone simulator with realistic UI, dynamic URL, and adjust documentation layout and server ports. ([bb808e3](https://github.com/lvli0401/uview-ultra-plus/commit/bb808e374a4675c2ae0ec303df94ed0b826eaedf))
+
 ## [1.12.2](https://github.com/lvli0401/uview-ultra-plus/compare/v1.12.1...v1.12.2) (2026-03-04)
 
 ## [1.12.1](https://github.com/lvli0401/uview-ultra-plus/compare/v1.12.0...v1.12.1) (2026-03-03)
