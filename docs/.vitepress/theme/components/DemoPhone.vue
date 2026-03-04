@@ -20,9 +20,20 @@ const finalUrl = computed(() => {
       <div class="phone-status-bar">
         <span class="time">9:41</span>
         <div class="status-icons">
-          <span class="signal">📶</span>
-          <span class="wifi">📶</span>
-          <span class="battery">🔋</span>
+          <svg class="icon signal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M12 20v-4M17 20v-8M22 20V4M7 20v-2" />
+          </svg>
+          <svg class="icon wifi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12.55a11 11 0 0 1 14.08 0" />
+            <path d="M1.42 9a16 16 0 0 1 21.16 0" />
+            <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+            <line x1="12" y1="20" x2="12.01" y2="20" />
+          </svg>
+          <svg class="icon battery" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="16" height="10" rx="2" ry="2" />
+            <rect x="4" y="9" width="10" height="6" fill="currentColor" stroke="none" />
+            <line x1="22" y1="11" x2="22" y2="13" />
+          </svg>
         </div>
       </div>
       <div class="phone-content">
@@ -93,16 +104,29 @@ const finalUrl = computed(() => {
 
 .phone-status-bar {
   height: 35px;
-  padding: 0 25px;
+  padding: 0 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: #fff;
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 13px;
+  font-weight: 600;
   border-top-left-radius: 33px;
   border-top-right-radius: 33px;
   z-index: 5;
+  color: #000;
+}
+
+.status-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.8;
 }
 
 .phone-content {

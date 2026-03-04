@@ -6,7 +6,7 @@ export default defineConfig(({mode}) => {
   return {
     plugins: [uni()],
     server: {
-      port: 5173
+      port: 5175
     },
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue', '.nvue', '.uts']

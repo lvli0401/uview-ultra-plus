@@ -3,10 +3,10 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   vite: {
     server: {
-      port: 5175
+      port: 5176
     },
     define: {
-      __DEMO_URL__: JSON.stringify(process.env.NODE_ENV === 'production' ? 'https://lvli0401.github.io/uview-ultra-plus/h5/' : 'http://localhost:5173/')
+      __DEMO_URL__: JSON.stringify(process.env.NODE_ENV === 'production' ? 'https://lvli0401.github.io/uview-ultra-plus/h5/' : 'http://localhost:5175/')
     }
   },
   title: "uview-ultra-plus",
