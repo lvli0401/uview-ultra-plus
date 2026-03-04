@@ -7,7 +7,11 @@
       "@/*": ["./src/*"]
     },
     "lib": ["esnext", "dom"],
-    "types": ["@dcloudio/types", "./src/uni_modules/uview-ultra/types"]
+    "types": ["@dcloudio/types", "./src/uni_modules/uview-ultra/types"],
+    "moduleResolution": "node",
+    "verbatimModuleSyntax": true,
+    "allowJs": true,
+    "checkJs": false
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }
