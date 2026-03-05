@@ -2,7 +2,11 @@
   "name": "@uview-ultra/icons",
   "version": "1.0.0",
   "description": "Unified icons for uview-ultra mobile and pc libraries",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "node scripts/build.js"
   },
