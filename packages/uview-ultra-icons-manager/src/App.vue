@@ -1,0 +1,236 @@
+<template>
+  <div class="icon-manager">
+    <header class="header">
+      <h1>uView Ultra Icons-Manager</h1>
+      <div class="actions">
+        <button @click="syncToGit" :disabled="syncing" class="btn-sync">
+          {{ syncing ? 'Syncing...' : 'Sync to Git' }}
+        </button>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="upload-section">
+        <div 
+          class="drop-zone"
+          @dragover.prevent
+          @drop.prevent="handleDrop"
+          @click="$refs.fileInput.click()"
+        >
+          <p>Click or drag SVG here to upload / replace</p>
+          <input 
+            type="file" 
+            ref="fileInput" 
+            accept=".svg" 
+            style="display: none" 
+            @change="handleFileSelect"
+          >
+        </div>
+      </section>
+
+      <section class="search-section">
+        <input v-model="searchQuery" placeholder="Search icons..." class="search-input">
+      </section>
+
+      <section class="icon-grid">
+        <div v-for="icon in filteredIcons" :key="icon.name" class="icon-card">
+          <div class="icon-preview" v-html="icon.content"></div>
+          <div class="icon-info">
+            <span class="icon-name">{{ icon.name }}</span>
+          </div>
+        </div>
+      </section>
+    </main>
+    
+    <div v-if="toast" class="toast" :class="toast.type">
+      {{ toast.message }}
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue'
+
+const icons = ref([])
+const searchQuery = ref('')
+const syncing = ref(false)
+const toast = ref(null)
+const fileInput = ref(null)
+
+const fetchIcons = async () => {
+  const res = await fetch('/api/icons')
+  icons.value = await res.json()
+}
+
+const filteredIcons = computed(() => {
+  return icons.value.filter(i => i.name.toLowerCase().includes(searchQuery.value.toLowerCase()))
+})
+
+const showToast = (message, type = 'success') => {
+  toast.value = { message, type }
+  setTimeout(() => toast.value = null, 3000)
+}
+
+const uploadFile = async (file) => {
+  const name = file.name.replace('.svg', '')
+  const formData = new FormData()
+  formData.append('file', file)
+  formData.append('name', name)
+
+  try {
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      body: formData
+    })
+    const data = await res.json()
+    if (data.success) {
+      showToast(`Icon "${name}" uploaded and built!`)
+      fetchIcons()
+    } else {
+      showToast(data.error, 'error')
+    }
+  } catch (e) {
+    showToast('Upload failed', 'error')
+  }
+}
+
+const handleDrop = (e) => {
+  const file = e.dataTransfer.files[0]
+  if (file && file.name.endsWith('.svg')) {
+    uploadFile(file)
+  }
+}
+
+const handleFileSelect = (e) => {
+  const file = e.target.files[0]
+  if (file) {
+    uploadFile(file)
+  }
+}
+
+const syncToGit = async () => {
+  syncing.value = true
+  try {
+    const res = await fetch('/api/sync', { method: 'POST' })
+    const data = await res.json()
+    if (data.success) {
+      showToast('Synced to remote successfully!')
+    } else {
+      showToast(data.error, 'error')
+    }
+  } catch (e) {
+    showToast('Sync failed', 'error')
+  } finally {
+    syncing.value = false
+  }
+}
+
+onMounted(fetchIcons)
+</script>
+
+<style scoped>
+.icon-manager {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.icon-manager h1 {
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.drop-zone {
+  border: 2px dashed #ddd;
+  border-radius: 12px;
+  padding: 3rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: #f9f9f9;
+}
+
+.drop-zone:hover {
+  border-color: #3c9cff;
+  background: #f0f7ff;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 2rem 0;
+  font-size: 1rem;
+}
+
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1.5rem;
+}
+
+.icon-card {
+  padding: 1.5rem;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.icon-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.icon-preview {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 1rem;
+}
+
+.icon-preview :deep(svg) {
+  width: 100%;
+  height: 100%;
+}
+
+.icon-name {
+  font-size: 0.85rem;
+  color: #666;
+  word-break: break-all;
+}
+
+.btn-sync {
+  background: #3c9cff;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-sync:disabled {
+  background: #ccc;
+}
+
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  color: white;
+  z-index: 100;
+}
+
+.toast.success { background: #5ac725; }
+.toast.error { background: #f56c6c; }
+</style>

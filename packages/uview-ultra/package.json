@@ -103,7 +103,7 @@
   "dependencies": {
     "clipboard": "^2.0.11",
     "dayjs": "^1.11.3",
-    "@uview-ultra/icons": "workspace:*"
+    "@uview-ultra/icons": "*"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
