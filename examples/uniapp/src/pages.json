@@ -13,6 +13,12 @@
       "style": {
         "navigationBarTitleText": "uni-app"
       }
+    },
+    {
+      "path": "pages/components/icon-test",
+      "style": {
+        "navigationBarTitleText": "Icon Test"
+      }
     }
   ],
   "globalStyle": {

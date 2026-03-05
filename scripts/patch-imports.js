@@ -39,6 +39,18 @@ const replacements = [
             // In dist, lime-dayuts is a peer of uview-ultra
             return `./${relToDist}/lime-dayuts`;
         }
+    },
+    {
+        pattern: /import (.*) from ['"]@uview-ultra\/icons\/dist\/uniapp\/(.*)['"]/g,
+        replacement: (filePath) => {
+            return (match, p1, p2) => {
+                const target = path.join(distUViewPath, 'vendor/icons', p2);
+                const relPath = path.relative(path.dirname(filePath), target);
+                // Ensure we use ./ for adjacent files
+                const finalPath = relPath.startsWith('.') ? relPath : `./${relPath}`;
+                return `import ${p1} from '${finalPath}'`;
+            }
+        }
     }
 ];
 

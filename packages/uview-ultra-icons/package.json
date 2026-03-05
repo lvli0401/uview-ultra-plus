@@ -1,0 +1,21 @@
+{
+  "name": "@uview-ultra/icons",
+  "version": "1.0.0",
+  "description": "Unified icons for uview-ultra mobile and pc libraries",
+  "main": "index.js",
+  "scripts": {
+    "build": "node scripts/build.js"
+  },
+  "keywords": [
+    "icons",
+    "vue",
+    "uniapp"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "svgo": "^4.0.0",
+    "svgtofont": "^6.5.1",
+    "case": "^1.6.3"
+  }
+}

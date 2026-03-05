@@ -21,6 +21,7 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress preview docs",
+    "icons:build": "node packages/uview-ultra-icons/scripts/build.js",
     "watch:examples": "node scripts/build.js --watch",
     "rollup": "rollup -c rollup.config.mjs",
     "test": "echo \"No test specified\""
@@ -58,9 +59,13 @@
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
+    "case": "^1.6.3",
     "chokidar": "^5.0.0",
+    "figma-api": "^2.1.2-beta",
     "release-it": "^19.2.4",
     "rollup": "^4.59.0",
+    "svgo": "^4.0.0",
+    "svgtofont": "^6.5.1",
     "vitepress": "^1.6.4",
     "vue": "^3.5.29"
   },

@@ -53,6 +53,51 @@ function runRollup() {
     execSync('npm run rollup', { stdio: 'inherit', cwd: projectRoot });
 }
 
+function collectIconAssets() {
+    console.log('[Build] Collecting icon assets from @uview-ultra/icons...');
+    const iconDist = path.join(projectRoot, 'packages/uview-ultra-icons/dist/uniapp');
+    const targetStatic = path.join(distPath, 'uview-ultra/static/uview-ultra');
+    const targetVendor = path.join(distPath, 'uview-ultra/vendor/icons');
+
+    if (!fs.existsSync(targetStatic)) fs.mkdirSync(targetStatic, { recursive: true });
+    if (!fs.existsSync(targetVendor)) fs.mkdirSync(targetVendor, { recursive: true });
+
+    if (fs.existsSync(iconDist)) {
+        // 1. Copy Binary Assets (TTF)
+        const fontFile = path.join(iconDist, 'upicon-custom.ttf');
+        if (fs.existsSync(fontFile)) {
+            fs.copyFileSync(fontFile, path.join(targetStatic, 'upicon-custom.ttf'));
+        }
+
+        // 2. Copy Images
+        const imgDist = path.join(iconDist, 'images');
+        if (fs.existsSync(imgDist)) {
+            const imgTarget = path.join(targetStatic, 'images');
+            if (!fs.existsSync(imgTarget)) fs.mkdirSync(imgTarget, { recursive: true });
+            execSync(`rsync -aq "${imgDist}/" "${imgTarget}/"`);
+        }
+
+        // 3. Copy Metadata for local distribution (Self-contained uni_modules)
+        const metadataFiles = ['icons-svg.js', 'icons-custom.json', 'icons-multicolor.json', 'icons-generated.js', 'icons-generated.uts'];
+        metadataFiles.forEach(file => {
+            const src = path.join(iconDist, file);
+            if (fs.existsSync(src)) {
+                fs.copyFileSync(src, path.join(targetVendor, file));
+            }
+        });
+
+        // 4. Copy SVG Chunks for dynamic loading
+        const svgsSrc = path.join(iconDist, 'svgs');
+        if (fs.existsSync(svgsSrc)) {
+            const svgsTarget = path.join(targetVendor, 'svgs');
+            if (!fs.existsSync(svgsTarget)) fs.mkdirSync(svgsTarget, { recursive: true });
+            execSync(`rsync -aq "${svgsSrc}/" "${svgsTarget}/"`);
+        }
+    } else {
+        console.warn('[Build] @uview-ultra/icons dist not found. Did you run icons:build?');
+    }
+}
+
 function patchImports() {
     console.log('[Build] Patching imports in dist...');
     require('./patch-imports.js');
@@ -70,6 +115,7 @@ function fullBuild() {
     
     runRollup();
     patchImports();
+    collectIconAssets();
     syncExamples(); // Sync from dist/uview-ultra to examples
     console.log('[Build] Successfully completed!');
 }
@@ -97,6 +143,7 @@ function watch() {
                 // Rollup (vendor) usually doesn't need to re-run unless dependencies change
                 syncSourceToDist();
                 patchImports();
+                collectIconAssets();
                 syncExamples();
                 console.log('[Watch] Sync completed. Waiting for changes...');
             } catch (e) {

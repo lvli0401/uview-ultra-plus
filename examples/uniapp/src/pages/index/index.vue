@@ -11,6 +11,7 @@
       @close="show = false"
       @confirm="show = false"></up-calendar>
     <up-button @click="show = !show" class="button" type="primary">{{ show ? '关闭日历' : '打开日历' }}</up-button>
+    <up-button @click="navToIcon" class="button" type="success">进入图标测试页</up-button>
   </view>
 </template>
 
@@ -18,6 +19,12 @@
 import { ref } from 'vue'
 const title = ref('Hello')
 const show = ref(false);
+
+function navToIcon() {
+  uni.navigateTo({
+    url: '/pages/components/icon-test'
+  })
+}
 </script>
 
 <style>

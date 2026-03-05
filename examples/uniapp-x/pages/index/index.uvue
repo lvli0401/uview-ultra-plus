@@ -14,6 +14,9 @@
 		<up-button @click="show = !show" class="button" type="primary">
 			{{ show ? '关闭日历' : '打开日历' }}
 		</up-button>
+		<up-button @click="navToIcon" class="button" type="success">
+			进入图标测试页
+		</up-button>
 	</view>
 </template>
 
@@ -25,6 +28,12 @@
 	const confirm = (e : Array<string>) => {
 		show.value = false
 		console.log(e)
+	}
+
+	const navToIcon = () => {
+		uni.navigateTo({
+			url: '/pages/components/icon-test'
+		})
 	}
 </script>
 

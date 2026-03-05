@@ -5,6 +5,12 @@
       "style": {
         "navigationBarTitleText": "uni-app x"
       }
+    },
+    {
+      "path": "pages/components/icon-test",
+      "style": {
+        "navigationBarTitleText": "Icon Test"
+      }
     }
   ],
   "easycom": {
