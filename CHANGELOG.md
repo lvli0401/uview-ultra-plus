@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.14.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.13.0...v1.14.0) (2026-03-05)
+
+
+### Features
+
+* Extract icon definitions into a new `uview-ultra-icons` package and refactor `up-icon` component to use it. ([e08217f](https://github.com/lvli0401/uview-ultra-plus/commit/e08217fa391bf53284372ac484058187973ce3f1))
+
 # [1.13.0](https://github.com/lvli0401/uview-ultra-plus/compare/v1.12.2...v1.13.0) (2026-03-04)
 
 
