@@ -1,0 +1,20 @@
+<template>
+  <svg 
+    viewBox="0 0 24 24" 
+    :width="size" 
+    :height="size" 
+    :fill="multi ? 'none' : color"
+    xmlns="http://www.w3.org/2000/svg"
+    v-bind="$attrs"
+  >
+    <circle cx="12" cy="12" r="10" fill="#42b883"/><path fill="none" stroke="#fff" stroke-width="2" d="m17 8-7 7-3-3"/>
+  </svg>
+</template>
+
+<script setup>
+defineProps({
+  size: { type: [String, Number], default: '1em' },
+  color: { type: String, default: 'currentColor' },
+  multi: { type: Boolean, default: true }
+});
+</script>
