@@ -1,12 +1,6 @@
 node_modules
-packages/uview-ultra/dist
-packages/uview-ultra-icons/dist
 dist
 unpackage
-apps/playground/**/node_modules
-apps/playground/**/unpackage
-apps/playground/**/dist
-apps/playground/*/.vscode
-apps/playground/*/.hbuilderx
+.vscode
+.hbuilderx
 apps/docs/.vitepress/cache
-apps/docs/.vitepress/dist
