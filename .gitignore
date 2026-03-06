@@ -1,6 +1,7 @@
 node_modules
 packages/uview-ultra/dist
 packages/uview-ultra-icons/dist
+dist
 unpackage
 apps/playground/**/node_modules
 apps/playground/**/unpackage
