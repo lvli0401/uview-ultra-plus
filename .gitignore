@@ -2,10 +2,10 @@ node_modules
 packages/uview-ultra/dist
 packages/uview-ultra-icons/dist
 unpackage
-examples/**/node_modules
-examples/**/unpackage
-examples/**/dist
-examples/*/.vscode
-examples/*/.hbuilderx
+apps/playground/**/node_modules
+apps/playground/**/unpackage
+apps/playground/**/dist
+apps/playground/*/.vscode
+apps/playground/*/.hbuilderx
 docs/.vitepress/cache
 docs/.vitepress/dist

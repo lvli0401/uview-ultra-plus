@@ -8,7 +8,7 @@ const { execSync } = require('child_process');
  * 2. Sync package sources to dist (exclude node_modules, scripts, dist)
  * 3. Bundle vendors into dist/vendor via rollup
  * 4. Patch imports inside dist
- * 5. Optionally sync to examples for local dev
+ * 5. Optionally sync to playground for local dev
  */
 
 const packageRoot = path.resolve(__dirname, '..');
@@ -50,10 +50,10 @@ function patchImports() {
   require('./patch-imports.js');
 }
 
-function syncExamples() {
+function syncPlayground() {
   const uiTargets = [
-    path.join(repoRoot, 'examples/uniapp/src/uni_modules/uview-ultra'),
-    path.join(repoRoot, 'examples/uniapp-x/uni_modules/uview-ultra')
+    path.join(repoRoot, 'apps/playground/uniapp/src/uni_modules/uview-ultra'),
+    path.join(repoRoot, 'apps/playground/uniapp-x/uni_modules/uview-ultra')
   ];
   uiTargets.forEach(target => {
     if (fs.existsSync(path.dirname(target))) {
@@ -66,7 +66,7 @@ function syncExamples() {
   extraLibs.forEach(lib => {
     const src = path.join(distPath, lib);
     if (!fs.statSync(src).isDirectory()) return;
-    [path.join(repoRoot, 'examples/uniapp/src/uni_modules', lib), path.join(repoRoot, 'examples/uniapp-x/uni_modules', lib)].forEach(dest => {
+    [path.join(repoRoot, 'apps/playground/uniapp/src/uni_modules', lib), path.join(repoRoot, 'apps/playground/uniapp-x/uni_modules', lib)].forEach(dest => {
       if (fs.existsSync(path.dirname(dest))) {
         if (fs.existsSync(dest)) execSync(`rm -rf "${dest}"`);
         execSync(`rsync -aq "${src}/" "${dest}/"`);
@@ -81,7 +81,7 @@ function main() {
   runRollup();
   patchImports();
   // Dev convenience
-  syncExamples();
+  syncPlayground();
   console.log('[Build] Done.');
 }
 
