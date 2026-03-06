@@ -33,6 +33,25 @@ importers:
         specifier: ^3.5.29
         version: 3.5.29(typescript@5.0.4)
 
+  apps/icon-portal:
+    dependencies:
+      formidable:
+        specifier: ^3.5.4
+        version: 3.5.4
+      simple-git:
+        specifier: ^3.32.3
+        version: 3.32.3
+      vue:
+        specifier: ^3.5.25
+        version: 3.5.29(typescript@5.0.4)
+    devDependencies:
+      '@vitejs/plugin-vue':
+        specifier: ^6.0.2
+        version: 6.0.4(vite@7.3.1(@types/node@25.3.3)(jiti@2.6.1)(sass@1.97.3)(terser@5.46.0)(yaml@2.8.2))(vue@3.5.29(typescript@5.0.4))
+      vite:
+        specifier: ^7.3.1
+        version: 7.3.1(@types/node@25.3.3)(jiti@2.6.1)(sass@1.97.3)(terser@5.46.0)(yaml@2.8.2)
+
   packages/uview-ultra:
     dependencies:
       '@uview-ultra/icons':
@@ -72,25 +91,6 @@ importers:
       svgtofont:
         specifier: ^6.5.1
         version: 6.5.1(chokidar@3.6.0)
-
-  packages/uview-ultra-icons-manager:
-    dependencies:
-      formidable:
-        specifier: ^3.5.4
-        version: 3.5.4
-      simple-git:
-        specifier: ^3.32.3
-        version: 3.32.3
-      vue:
-        specifier: ^3.5.25
-        version: 3.5.29(typescript@5.0.4)
-    devDependencies:
-      '@vitejs/plugin-vue':
-        specifier: ^6.0.2
-        version: 6.0.4(vite@7.3.1(@types/node@25.3.3)(jiti@2.6.1)(sass@1.97.3)(terser@5.46.0)(yaml@2.8.2))(vue@3.5.29(typescript@5.0.4))
-      vite:
-        specifier: ^7.3.1
-        version: 7.3.1(@types/node@25.3.3)(jiti@2.6.1)(sass@1.97.3)(terser@5.46.0)(yaml@2.8.2)
 
 packages:
 
