@@ -1,0 +1,321 @@
+<template>
+	<view
+	    class="up-icon"
+	    @tap="clickHandler"
+	    :class="['up-icon--' + labelPos]"
+	>
+		<image
+		    class="up-icon__img"
+		    v-if="isImg"
+		    :src="name"
+		    :mode="imgMode"
+		    :style="[imgStyle, addStyle(customStyle)]"
+		></image>
+		<image
+		    class="up-icon__img"
+		    v-else-if="isMultiColor"
+		    :src="imgSrc"
+		    :mode="imgMode"
+		    :style="[imgStyle, addStyle(customStyle)]"
+		></image>
+		<text
+		    v-else
+		    class="up-icon__icon"
+		    :class="uClasses"
+		    :style="[iconStyle, addStyle(customStyle)]"
+		    :hover-class="hoverClass"
+		>{{icon}}</text>
+		<!-- 这里进行空字符串判断，如果仅仅是v-if="label"，可能会出现传递0的时候，结果也无法显示 -->
+		<text
+		    v-if="label !== ''" 
+		    class="up-icon__label"
+		    :style="{
+			color: labelColor,
+			fontSize: addUnit(labelSize),
+			marginLeft: labelPos == 'right' ? addUnit(space) : 0,
+			marginTop: labelPos == 'bottom' ? addUnit(space) : 0,
+			marginRight: labelPos == 'left' ? addUnit(space) : 0,
+			marginBottom: labelPos == 'top' ? addUnit(space) : 0,
+		}"
+		>{{ label }}</text>
+	</view>
+</template>
+
+<script setup lang="uts">
+	import customIcons from '../../../@uview-ultra/icons/dist/uniapp/icons-custom.json'
+	import multiColorIcons from '../../../@uview-ultra/icons/dist/uniapp/icons-multicolor.json'
+	import iconsSvg from '../../../@uview-ultra/icons/dist/uniapp/icons-svg.js'
+	import generatedIcons from '../../../@uview-ultra/icons/dist/uniapp/icons-generated.uts'
+	import { addUnit, addStyle } from '../../libs/function/index'
+	import { commonProps, useUltraUI } from '../../libs/composable/useUltraUI'
+	import config from '../../libs/config/config';
+
+	const props = defineProps({
+		// 每个组件都有的父组件传递的样式，可以为字符串或者对象形式
+		customStyle: {
+			type: [UTSJSONObject, String],
+			default: () : UTSJSONObject => ({})
+		},
+		customClass: {
+			type: String,
+			default: ''
+		},
+		// 跳转的页面路径
+		url: {
+			type: String,
+			default: ''
+		},
+		// 页面跳转的类型
+		linkType: {
+			type: String,
+			default: 'navigateTo'
+		},
+		// 图标名称，见示例图标集
+		name: {
+			type: String,
+			default: ''
+		},
+		// 图标颜色,可接受主题色
+		color: {
+			type: String,
+			default: ''
+		},
+		// 图标字体大小，单位px
+		size: {
+			type: [String, Number],
+			default: '16px'
+		},
+		// 是否显示粗体
+		bold: {
+			type: Boolean,
+			default: false
+		},
+		// 点击图标的时候传递事件出去的index（用于区分点击了哪一个）
+		index: {
+			type: [String, Number],
+			default: ''
+		},
+		// 图标按下去的样式类，用法同uni的view组件的hoverClass参数，详情见官网
+		hoverClass: {
+			type: String,
+			default: ''
+		},
+		// 自定义扩展前缀，方便用户扩展自己的图标库
+		customPrefix: {
+			type: String,
+			default: 'upicon'
+		},
+		// 图标右侧的label文字
+		label: {
+			type: [String, Number],
+			default: ''
+		},
+		// label相对于图标的位置，只能right或bottom
+		labelPos: {
+			type: String,
+			default: 'right'
+		},
+		// label字体大小，单位px
+		labelSize: {
+			type: [String, Number],
+			default: '15px'
+		},
+		// 图标右侧的label文字颜色
+		labelColor: {
+			type: String,
+			default: ''
+		},
+		// label与图标的距离，单位px
+		space: {
+			type: [String, Number],
+			default: '3px'
+		},
+		// 图片的mode
+		imgMode: {
+			type: String,
+			default: ''
+		},
+		// 显示图片小图标时的宽度
+		width: {
+			type: [String, Number],
+			default: ''
+		},
+		// 显示图片小图标时的高度
+		height: {
+			type: [String, Number],
+			default: ''
+		},
+		// 图标在垂直方向上的定位 用于解决某些情况下，让图标垂直居中的用途
+		top: {
+			type: [String, Number],
+			default: 0
+		},
+		// 是否阻止事件传播
+		stop: {
+			type: Boolean,
+			default: false
+		},
+	})
+	
+	const emit = defineEmits(['click'])
+
+
+	const uClasses = computed(() : string[] => {
+		let classes = [] as string[]
+		classes.push(props.customPrefix + '-' + props.name)
+		if (props.customPrefix == 'upicon') {
+			classes.push('up-icon-custom')
+		} else {
+			classes.push(props.customPrefix)
+		}
+		// 主题色，通过类配置
+		const themes = config['type'] as string[]
+		if (props.color != '' && themes.includes(props.color)) {
+			classes.push('up-icon__icon--' + props.color)
+		}
+		return classes
+	})
+	
+	const iconStyle = computed(() : UTSJSONObject => {
+		const themes = config['type'] as string[]
+		let style = {
+			fontSize: addUnit(props.size),
+			lineHeight: addUnit(props.size),
+			fontWeight: props.bold ? 'bold' : 'normal',
+			// 某些特殊情况 need to set a distance to the top to better center vertically
+			top: addUnit(props.top)
+		} as UTSJSONObject 
+		// 非主题色值时，才当作颜色值
+		if (props.color != '' && !themes.includes(props.color)) {
+			style['color'] = props.color
+		}
+	
+		return style
+	})
+	
+	// 判断传入的name属性，是否图片路径，只要带有"/"均认为是图片形式
+	const isImg = computed(() : boolean => {
+		return props.name.indexOf('/') !== -1
+	})
+	
+	const imgStyle = computed(() : UTSJSONObject => {
+		let style = {} as UTSJSONObject
+		// 如果设置width和height属性，则优先使用，否则使用size属性
+		style['width'] = props.width != '' ? addUnit(props.width) : addUnit(props.size)
+		style['height'] = props.height != '' ? addUnit(props.height) : addUnit(props.size)
+		return style
+	})
+	
+	// 通过图标名，查找对应的图标
+	const icon = computed(() : string => {
+		// 使用自定义图标的时候页面上会把name属性也展示出来，所以在这里处理一下
+		if (props.customPrefix !== "upicon") return "";
+		// 如果内置的图标中找不到对应的图标，就直接返回name值，因为用户可能传入的是unicode代码
+		if (generatedIcons[props.name] != null) {
+			return generatedIcons[props.name] as string
+		} else {
+			return props.name.toString()
+		}
+	})
+
+	const isMultiColor = computed(() : boolean => {
+		if (iconsSvg[props.name] != null) {
+			const item = iconsSvg[props.name] as UTSJSONObject
+			if (item['multi'] == true) return true
+		}
+		const multicolorList = multiColorIcons as string[]
+		return multicolorList.includes(props.name)
+	})
+
+	const imgSrc = computed(() : string => {
+		// 使用 uni_modules 绝对路径确保在各端加载正常
+		return `uni_modules/@uview-ultra/icons/dist/uniapp/images/${props.name}.svg`
+	})
+	
+	// 方法
+	function clickHandler(e: UniPointerEvent) {
+		emit('click', props.index)
+		// 是否阻止事件冒泡
+		if (props.stop) {
+			e.stopPropagation()
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+
+	// 变量定义
+	$up-icon-primary: #3c9cff !default;
+	$up-icon-success: #5ac725 !default;
+	$up-icon-info: #909193 !default;
+	$up-icon-warning: #f9ae3d !default;
+	$up-icon-error: #f56c6c !default;
+	$up-icon-label-line-height:1 !default;
+
+	.up-icon {
+		display: flex;
+		align-items: center;
+
+		@font-face {
+			font-family: 'upicon-custom';
+			src: url('../../../@uview-ultra/icons/dist/uniapp/upicon-custom.woff2') format('woff2'),
+				 url('../../../@uview-ultra/icons/dist/uniapp/upicon-custom.woff') format('woff'),
+				 url('../../../@uview-ultra/icons/dist/uniapp/upicon-custom.ttf') format('truetype');
+			font-weight: normal;
+			font-style: normal;
+		}
+
+		&--left {
+			flex-direction: row-reverse;
+			align-items: center;
+		}
+
+		&--right {
+			flex-direction: row;
+			align-items: center;
+		}
+
+		&--top {
+			flex-direction: column-reverse;
+			justify-content: center;
+		}
+
+		&--bottom {
+			flex-direction: column;
+			justify-content: center;
+		}
+
+		&__icon {
+			position: relative;
+			font-family: upicon-custom;
+
+			&--primary {
+				color: $up-icon-primary;
+			}
+
+			&--success {
+				color: $up-icon-success;
+			}
+
+			&--error {
+				color: $up-icon-error;
+			}
+
+			&--warning {
+				color: $up-icon-warning;
+			}
+
+			&--info {
+				color: $up-icon-info;
+			}
+		}
+
+		&__img {
+			height: auto;
+		}
+
+		&__label {
+			line-height: $up-icon-label-line-height;
+		}
+	}
+</style>
