@@ -54,10 +54,10 @@
 
 <script>
 	// 引入图标名称，已经对应的unicode
-	import iconsSvg from '@uview-ultra/icons/dist/uniapp/icons-svg.js'
-	import customIcons from '@uview-ultra/icons/dist/uniapp/icons-custom.json'
-	import multiColorIcons from '@uview-ultra/icons/dist/uniapp/icons-multicolor.json'
-	import generatedIcons from '@uview-ultra/icons/dist/uniapp/icons-generated.js'
+	import iconsSvg from '../../../@uview-ultra/icons/dist/uniapp/icons-svg.js'
+	import customIcons from '../../../@uview-ultra/icons/dist/uniapp/icons-custom.json'
+	import multiColorIcons from '../../../@uview-ultra/icons/dist/uniapp/icons-multicolor.json'
+	import generatedIcons from '../../../@uview-ultra/icons/dist/uniapp/icons-generated.js'
 	import { props } from './props.js';
 	import { mpMixin } from '../../libs/mixin/mpMixin.js';
 	import { mixin } from '../../libs/mixin/mixin.js';
@@ -164,7 +164,7 @@
 			},
 			isCustom() {
 				// #ifdef H5
-				// H5 下仅多色图标走 SVG 模式，单色图标走字体模式优化体积
+				// H5 下多色图标走 SVG，单色走字体
 				return this.isMultiColor
 				// #endif
 				// #ifndef H5
@@ -180,7 +180,7 @@
 				return multiColorIcons.includes(this.name)
 			},
 			imgSrc() {
-				return `../../static/uview-ultra/images/${this.name}.svg`
+				return `uni_modules/@uview-ultra/icons/dist/uniapp/images/${this.name}.svg`
 			}
 		},
 		methods: {
@@ -189,7 +189,7 @@
 			async loadAsyncSvg(name) {
 				try {
 					// 动态导入分片
-					const module = await import(`../../vendor/icons/svgs/${name}.js`)
+					const module = await import(`../../../@uview-ultra/icons/dist/uniapp/svgs/${name}.js`)
 					this.asyncSvgContent = module.default.inner
 				} catch (e) {
 					console.error(`[up-icon] Failed to load SVG: ${name}`, e)
@@ -219,7 +219,13 @@
 	// 非nvue下加载字体
 	@font-face {
 		font-family: 'upicon-custom';
-		src: url('../../static/uview-ultra/upicon-custom.ttf') format('truetype');
+		src: local('upicon-custom'),
+		     url('../../../@uview-ultra/icons/dist/uniapp/upicon-custom.woff2') format('woff2'),
+		     url('../../../@uview-ultra/icons/dist/uniapp/upicon-custom.woff') format('woff'),
+		     url('../../../@uview-ultra/icons/dist/uniapp/upicon-custom.ttf') format('truetype');
+		font-weight: normal;
+		font-style: normal;
+		font-display: block;
 	}
 	/* #endif */
 
@@ -253,7 +259,7 @@
 			position: relative;
 			@include flex;
 			align-items: center;
-			font-family: upicon-custom;
+			font-family: upicon-custom !important;
 
 			&--primary {
 				color: $up-icon-primary;

@@ -1,6 +1,6 @@
 {
   "name": "@uview-ultra/icons",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Unified icons for uview-ultra mobile and pc libraries",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -8,7 +8,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "node scripts/build.js"
+    "build": "node scripts/build.js",
+    "release": "release-it"
   },
   "keywords": [
     "icons",
@@ -17,6 +18,9 @@
   ],
   "author": "",
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "devDependencies": {
     "svgo": "^4.0.0",
     "svgtofont": "^6.5.1",

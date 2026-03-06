@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import uni from "@dcloudio/vite-plugin-uni";
+import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig(({mode}) => {
@@ -9,6 +10,9 @@ export default defineConfig(({mode}) => {
       port: 5175
     },
     resolve: {
+      alias: [
+        /* uview-ultra-icons-alias */ { find: /^@uview-ultra\/icons/, replacement: path.resolve(__dirname, 'src/uni_modules/@uview-ultra/icons') }
+      ],
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue', '.nvue', '.uts']
     },
     css: {

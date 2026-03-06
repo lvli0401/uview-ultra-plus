@@ -47,7 +47,7 @@ export default defineConfig({
               // Trigger build
               try {
                 // Return to uview-ultra-icons to build
-                execSync('npm run build', { cwd: path.resolve(rootDir, 'uview-ultra-icons') })
+                execSync('pnpm run build', { cwd: path.resolve(rootDir, 'uview-ultra-icons') })
                 res.end(JSON.stringify({ success: true }))
               } catch (buildErr) {
                 res.statusCode = 500
@@ -57,12 +57,35 @@ export default defineConfig({
           }
           else if (req.url === '/api/sync' && req.method === 'POST') {
             try {
-              const git = simpleGit(path.resolve(rootDir, '..')) // Repo root
-              await git.pull()
-              await git.add(path.join(rootDir, '*'))
-              await git.commit('chore: update icons via manager')
-              await git.push()
-              res.end(JSON.stringify({ success: true }))
+              const repoRoot = path.resolve(rootDir, '..')
+              const git = simpleGit(repoRoot) // Repo root
+              
+              // Ensure we are working on the latest master before branching
+              await git.checkout('master')
+              await git.pull('origin', 'master')
+
+              // Create a unique branch name
+              const timestamp = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14)
+              const branchName = `feat/update-icons-${timestamp}`
+              
+              await git.checkoutLocalBranch(branchName)
+              
+              await git.add([
+                path.join(repoRoot, 'packages/uview-ultra-icons/svg'),
+                path.join(repoRoot, 'packages/uview-ultra-icons/dist')
+              ])
+              await git.commit('chore(icons): update SVG assets via manager')
+              
+              // Push the new branch to origin
+              await git.push('origin', branchName)
+              
+              // Switch back to master after successful push
+              await git.checkout('master')
+
+              res.end(JSON.stringify({ 
+                success: true, 
+                message: `Pushed to new branch: ${branchName}. Please create a PR.` 
+              }))
             } catch (gitErr) {
               res.statusCode = 500
               res.end(JSON.stringify({ error: 'Git sync failed: ' + gitErr.message }))

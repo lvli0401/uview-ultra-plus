@@ -83,10 +83,9 @@ defineProps({
     // 2. Optimized Standalone SVG for Native/MP
     if (multi) {
       multiColorIcons.push(name);
-      // Individual chunk for dynamic import (H5 / Modern)
-      const svgsDir = path.join(uniappDir, 'svgs');
-      if (!fs.existsSync(svgsDir)) fs.mkdirSync(svgsDir, { recursive: true });
-      fs.writeFileSync(path.join(svgsDir, `${name}.js`), `export default ${JSON.stringify({ inner: innerSvg, multi: true })}`);
+      // Include multi-color SVG data inline in icons-svg.js
+      // This avoids the need for dynamic imports which don't work with bare module specifiers
+      svgMappings[name] = { inner: innerSvg, multi: true };
       
       fs.writeFileSync(path.join(uniappImgDir, file), optimized);
     } else {

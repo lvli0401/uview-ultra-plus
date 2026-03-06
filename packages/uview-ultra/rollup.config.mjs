@@ -18,11 +18,7 @@ export default [
       format: 'esm',
       sourcemap: false
     },
-    plugins: [
-      resolve(),
-      commonjs(),
-      terser()
-    ]
+    plugins: [resolve(), commonjs(), terser()]
   },
   {
     input: path.join(subNodeModules, 'clipboard/dist/clipboard.min.js'),
@@ -32,10 +28,6 @@ export default [
       name: 'Clipboard',
       sourcemap: false
     },
-    plugins: [
-      resolve(),
-      commonjs(),
-      terser()
-    ]
+    plugins: [resolve(), commonjs(), terser()]
   }
 ];

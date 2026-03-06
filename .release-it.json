@@ -7,10 +7,7 @@
     "tagName": "v${version}"
   },
   "npm": {
-    "publish": true
-  },
-  "hooks": {
-    "after:bump": "npm version ${version} --no-git-tag-version --prefix packages/uview-ultra && npm version ${version} --no-git-tag-version --prefix examples/uniapp && npm run build && git add packages/uview-ultra/package.json examples/uniapp/package.json"
+    "publish": false
   },
   "plugins": {
     "@release-it/conventional-changelog": {

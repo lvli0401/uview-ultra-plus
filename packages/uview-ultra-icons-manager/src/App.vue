@@ -114,7 +114,7 @@ const syncToGit = async () => {
     const res = await fetch('/api/sync', { method: 'POST' })
     const data = await res.json()
     if (data.success) {
-      showToast('Synced to remote successfully!')
+      showToast(data.message || 'Synced to remote successfully!', 'success')
     } else {
       showToast(data.error, 'error')
     }

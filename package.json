@@ -1,29 +1,17 @@
 {
   "name": "uview-ultra-plus",
   "version": "1.14.1",
-  "workspaces": [
-    "packages/*",
-    "examples/*"
-  ],
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
+  "private": true,
   "description": "A uView-like component library for UniApp & UniApp X",
   "main": "index.js",
   "module": "index.js",
   "types": "index.d.ts",
-  "bin": {
-    "uview-ultra-plus": "dist/scripts/install.js"
-  },
   "scripts": {
-    "release": "release-it",
-    "build": "node scripts/build.js",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress preview docs",
     "icons:build": "node packages/uview-ultra-icons/scripts/build.js",
-    "watch:examples": "node scripts/build.js --watch",
-    "rollup": "rollup -c rollup.config.mjs",
+    "icons:manage": "pnpm --filter @uview-ultra/icons-manager run dev",
     "test": "echo \"No test specified\""
   },
   "keywords": [
@@ -38,9 +26,6 @@
     "type": "git",
     "url": "https://github.com/lvli0401/uview-ultra-plus.git"
   },
-  "files": [
-    "dist"
-  ],
   "uni_modules": {
     "platforms": {
       "client": {
@@ -56,14 +41,9 @@
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^10.0.5",
-    "@rollup/plugin-commonjs": "^29.0.0",
-    "@rollup/plugin-node-resolve": "^16.0.3",
-    "@rollup/plugin-terser": "^0.4.4",
     "case": "^1.6.3",
-    "chokidar": "^5.0.0",
     "figma-api": "^2.1.2-beta",
     "release-it": "^19.2.4",
-    "rollup": "^4.59.0",
     "svgo": "^4.0.0",
     "svgtofont": "^6.5.1",
     "vitepress": "^1.6.4",

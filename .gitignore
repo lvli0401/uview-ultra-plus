@@ -1,5 +1,6 @@
 node_modules
-dist
+packages/uview-ultra/dist
+packages/uview-ultra-icons/dist
 unpackage
 examples/**/node_modules
 examples/**/unpackage
