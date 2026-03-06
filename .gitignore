@@ -7,5 +7,5 @@ apps/playground/**/unpackage
 apps/playground/**/dist
 apps/playground/*/.vscode
 apps/playground/*/.hbuilderx
-docs/.vitepress/cache
-docs/.vitepress/dist
+apps/docs/.vitepress/cache
+apps/docs/.vitepress/dist

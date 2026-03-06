@@ -7,9 +7,9 @@
   "module": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:serve": "vitepress preview docs",
+    "docs:dev": "vitepress dev apps/docs",
+    "docs:build": "vitepress build apps/docs",
+    "docs:serve": "vitepress preview apps/docs",
     "icons:build": "node packages/uview-ultra-icons/scripts/build.js",
     "icons:manage": "pnpm --filter @uview-ultra/icons-manager run dev",
     "test": "echo \"No test specified\""
